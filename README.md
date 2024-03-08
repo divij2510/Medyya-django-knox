@@ -8,27 +8,27 @@ Backend RESTful API for a social media app
 
 To run this project, you will need to install the following python packages in your machine.
 
-`asgiref` `--` `3.7.2`
+`asgiref --3.7.2`
 
-`cffi` `--` `1.16.0`
+`cffi --1.16.0`
 
-`cryptography` `--` `42.0.5`
+`cryptography --42.0.5`
 
-`Django` `--` `5.0.3`
+`Django --5.0.3`
 
-`django-rest-knox` `--` `4.2.0`
+`django-rest-knox --4.2.0`
 
-`djangorestframework` `--` `3.14.0`
+`djangorestframework --3.14.0`
 
-`pillow` `--` `10.2.0`
+`pillow --10.2.0`
 
-`pycparser` `--` `2.21`
+`pycparser --2.21`
 
-`pytz` `--` `2024.1`
+`pytz --2024.1`
 
-`sqlparse` `--` `0.4.4`
+`sqlparse --0.4.4`
 
-`tzdata` `--` `2024.1`
+`tzdata --2024.1`
 
 
 ## Install and Run
