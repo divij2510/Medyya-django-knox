@@ -1,8 +1,7 @@
 
 # Medyya Social Media Backend
 
-Backend RESTful API for a social media app
-
+Backend RESTful API for a social media app, with Knox Authentication, supports user profile management, Connections and Posts management. Includes additional features like Post Liking/Unliking, User Recommendations, etc.
 
 ## Requirements
 
