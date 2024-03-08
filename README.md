@@ -3,6 +3,10 @@
 
 Backend RESTful API for a social media app, with Knox Authentication, supports user profile management, Connections and Posts management. Includes additional features like Post Liking/Unliking, User Recommendations, etc.
 
+
+## Model Design
+![Preview of models used:](https://github.com/divij2510/Medyya-django-knox/blob/master/models_used_erd.png)
+
 ## Requirements
 
 To run this project, you will need to install the following python packages in your machine.
