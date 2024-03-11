@@ -1,8 +1,8 @@
-## Register 
+ ## Register 
 
 > - This endpoint is to create a new user in the database, also automatically creates a blank profile.
 
-```plaintext
+```python
 
 POST <base hosting url>/api/users/signup/
 
@@ -48,7 +48,7 @@ Example response:
 
 > - This endpoint is to login an existing user in the database.
 
-```plaintext
+```python
 
 POST <base hosting url>/api/users/login/
 
@@ -92,7 +92,7 @@ Example response:
 
 > - This endpoint is to logout a logged in user.
 
-```plaintext
+```python
 
 POST <base hosting url>/api/users/logout/
 
@@ -119,7 +119,7 @@ Example request:
 
 > - This endpoint is to update profile of an existing user in the database.
 
-```plaintext
+```python
 
 PUT <base hosting url>/api/users/profile/update/
 
@@ -174,7 +174,7 @@ Example response:
 
 > - This endpoint is to update profile of an existing user in the database.
 
-```plaintext
+```python
 
 DELETE <base hosting url>/api/users/profile/delete/
 
@@ -196,7 +196,7 @@ Example request:
 
 > - This endpoint is to get profiles of all existing users.
 
-```plaintext
+```python
 
 GET <base hosting url>/api/users/profile/view-all/
 
@@ -271,7 +271,7 @@ Example response:
 
 > - This endpoint is to get profile of a specifific user.
 
-```plaintext
+```python
 
 GET <base hosting url>/api/users/profile/view/<str:username>
 
@@ -324,7 +324,7 @@ Example response:
 
 > - This endpoint is to get profiles of all recommended users.
 
-```plaintext
+```python
 
 GET <base hosting url>/api/users/profile/view-recommended/
 
