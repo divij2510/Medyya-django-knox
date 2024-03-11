@@ -1,8 +1,10 @@
 
-# Medyya Social Media Backend
+# Medyya API
 
 Backend RESTful API for a social media app, with Knox Authentication, supports user profile management, Connections and Posts management. Includes additional features like Post Liking/Unliking, User Recommendations, etc.
 
+## Documentation
+View Documentation [HERE](https://github.com/divij2510/Medyya-django-knox/blob/master/Docs.md)
 
 ## Model Design
 ![Preview of models used:](https://github.com/divij2510/Medyya-django-knox/blob/master/models_used_erd.png)
