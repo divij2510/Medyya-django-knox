@@ -2,23 +2,19 @@ from django.db import models
 from django.contrib.auth.models import User
 from django.utils.text import slugify
 from django.core.exceptions import ValidationError
-
+from cloudinary.models import CloudinaryField
 
 class UserProfile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
-    profile_picture = models.ImageField(upload_to='profile_pictures/', default='profile_pictures/default_pic.png')
+    profile_picture = CloudinaryField('profile_pictures', default='http://res.cloudinary.com/dk3tpyyee/image/upload/v1713565892/bpwwih53rqle48wt7bsw.png', transformation={
+            'quality': 'auto:low', 'fetch_format':'auto'
+        })
     bio = models.TextField(blank=True, null=True, default='Hey there, I just joined Medyya')
-    slug = models.SlugField(unique=True, blank=True)
+    # slug = models.SlugField(unique=True, blank=True)
 
     def __str__(self):
         '''Return a string representation of the user profile.'''
         return self.user.username
-
-    def save(self, *args, **kwargs):
-        '''Override the save method to automatically generate a slug if it's not provided.'''
-        if not self.slug:
-            self.slug = slugify(self.user.username)
-        super().save(*args, **kwargs)
 
     @property
     def connections_count(self):

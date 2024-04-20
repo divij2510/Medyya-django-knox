@@ -1,11 +1,13 @@
 from django.db import models
 from django.contrib.auth.models import User
-
+from cloudinary.models import CloudinaryField
 
 class Post(models.Model):
     id = models.AutoField(primary_key=True)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
-    post_image = models.ImageField(upload_to='post_images/', blank=False, null=False)
+    post_image = CloudinaryField('post_images', blank=False, null=False, transformation={
+            'quality': 'auto:eco'
+        })
     caption = models.TextField(blank=True, null=True)
     created_at = models.DateTimeField(auto_now_add=True)
 

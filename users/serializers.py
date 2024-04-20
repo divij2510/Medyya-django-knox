@@ -2,6 +2,7 @@ from rest_framework import serializers
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate
 from users.models import UserProfile, Connection
+from cloudinary.forms import CloudinaryFileField
 
 class UserRegistrationSerializer(serializers.ModelSerializer):
     password = serializers.CharField(write_only=True)
@@ -38,27 +39,49 @@ class UserLoginSerializer(serializers.Serializer):
         )
         return user
 
+class UserSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = User
+        fields = ['first_name', 'last_name']
+        required_fields = []
+
 class UserProfileSerializer(serializers.ModelSerializer):
+    profile_picture = CloudinaryFileField()
     class Meta:
         model = UserProfile
-        exclude = ['user']
+        fields = ['profile_picture', 'bio']
+        required_fields = []
+
+    def update(self, instance, validated_data):
+        profile_picture = validated_data.get('profile_picture', None)
+        if profile_picture is not None:
+            instance.profile_picture.save(profile_picture.name, profile_picture, save=True)
+
+        return super().update(instance, validated_data)
 
 class ProfileViewSerializer(serializers.ModelSerializer):
     user = serializers.SerializerMethodField()
-    user_full_name = serializers.SerializerMethodField()
+    user_first_name = serializers.SerializerMethodField()
+    user_last_name = serializers.SerializerMethodField()
     connections = serializers.SerializerMethodField()
+    profile_picture = CloudinaryFileField()
 
     class Meta:
         model = UserProfile
         exclude = ['id']
+        required_fields = []
 
     def get_user(self, obj):
         '''Get the username of the user.'''
         return obj.user.username
 
-    def get_user_full_name(self, obj):
+    def get_user_first_name(self, obj):
         '''Get the full name of the user.'''
-        return obj.user.first_name + ' ' + obj.user.last_name
+        return obj.user.first_name
+    
+    def get_user_last_name(self, obj):
+        '''Get the full name of the user.'''
+        return obj.user.last_name
 
     def get_connections(self, obj):
         '''Get the number of connections for the user.'''

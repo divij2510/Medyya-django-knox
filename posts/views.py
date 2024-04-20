@@ -5,7 +5,7 @@ from rest_framework.permissions import IsAuthenticated
 from knox.auth import TokenAuthentication
 
 from .models import Post, Like
-from .serializers import PostSerializer, PostViewSerializer  # Explicitly import serializers
+from .serializers import PostSerializer, PostViewSerializer, LikeSerializer  # Explicitly import serializers
 
 
 class CreatePostAPIView(APIView):
@@ -56,6 +56,22 @@ class PostsListAPIView(APIView):
         posts = Post.objects.all()
         serializer = PostViewSerializer(posts, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
+    
+class MyPostsListAPIView(APIView):
+    authentication_classes = [TokenAuthentication]
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request):
+        """
+        Retrieves a list of all posts.
+        """  
+        user = request.user
+        try:
+            posts = Post.objects.filter(user=user)
+            serializer = PostViewSerializer(posts, many=True)
+            return Response(serializer.data, status=status.HTTP_200_OK)
+        except:
+            return Response({'errors':'No posts by user'}, status=status.HTTP_404_NOT_FOUND)
 
 
 class LikePostAPIView(APIView):
@@ -71,7 +87,7 @@ class LikePostAPIView(APIView):
 
         try:
             Like.objects.get(user=request.user, post=post)
-            return Response({'error': 'Like on this Post already exists'})
+            return Response({'error': 'Like on this Post already exists'}, status=status.HTTP_208_ALREADY_REPORTED)
         except Like.DoesNotExist:
             Like.objects.create(user=request.user, post=post)
             return Response({'message': 'Post Liked Successfully'}, status=status.HTTP_201_CREATED)
@@ -93,4 +109,30 @@ class UnlikePostAPIView(APIView):
             like.delete()
             return Response({'message': 'Post Unliked Successfully'}, status=status.HTTP_410_GONE)
         except Like.DoesNotExist:
-            return Response({'error': 'Like on this Post does not exist'})
+            return Response({'error': 'Like on this Post does not exist'}, status=status.HTTP_208_ALREADY_REPORTED)
+
+
+class LikesListView(APIView):
+    authentication_classes = [TokenAuthentication]
+    permission_classes = [IsAuthenticated]
+    def get(self, request, post_id):
+        try:
+            l = Like.objects.filter(post__id=post_id)
+            if l:
+                serializer = LikeSerializer(l, many=True)
+                return Response(serializer.data, status.HTTP_200_OK)
+        except:
+            return Response({'error':'no likes found'}, status=status.HTTP_404_NOT_FOUND)
+
+class CheckLike(APIView):
+    authentication_classes = [TokenAuthentication]
+    permission_classes = [IsAuthenticated]
+    def get(self, request, post_id):
+        try:
+            l = Like.objects.get(user = request.user, post__id = post_id)
+            if l:
+                return Response({'message':'like exists'}, status=status.HTTP_208_ALREADY_REPORTED)
+        except:
+            return Response({'message':'like does not exist'}, status=status.HTTP_204_NO_CONTENT)
+        
+        

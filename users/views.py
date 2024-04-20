@@ -64,6 +64,19 @@ class UserProfileDeleteAPIView(APIView):
         user = request.user
         user.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
+    
+class UserUpdateAPIView(APIView):
+    authentication_classes = [TokenAuthentication]
+    permission_classes = [IsAuthenticated]
+    def put(self, request):
+        user = request.user
+        serializer = UserSerializer(instance=user, data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_200_OK)
+        
+        print(serializer.errors)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 class UserProfileUpdateAPIView(APIView):
     authentication_classes = [TokenAuthentication]
@@ -72,6 +85,7 @@ class UserProfileUpdateAPIView(APIView):
     def put(self, request):
         user = request.user
         # Check if user has a profile
+        print(request.data)
         try:
             profile = UserProfile.objects.get(user=user)
         except UserProfile.DoesNotExist:
@@ -81,6 +95,8 @@ class UserProfileUpdateAPIView(APIView):
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data, status=status.HTTP_200_OK)
+        
+        print(serializer.errors)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 class ListProfileAPIView(APIView):
@@ -97,8 +113,12 @@ class ViewProfileAPIView(APIView):
     permission_classes = [IsAuthenticated]
 
     def get(self, request, username):
+        
         try:
-            profile = UserProfile.objects.get(user__username=username)
+            if username=='mine':
+                profile = UserProfile.objects.get(user = request.user)
+            else:
+                profile = UserProfile.objects.get(user__username=username)
         except UserProfile.DoesNotExist:
             return Response({"error": "Profile not found"}, status=status.HTTP_404_NOT_FOUND)
         

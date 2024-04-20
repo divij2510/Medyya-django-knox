@@ -12,6 +12,7 @@ urlpatterns = [
     # User profile management
     path('profile/', include([
         path('update/', views.UserProfileUpdateAPIView.as_view(), name='update-profile'),
+        path('user-update/', views.UserUpdateAPIView.as_view()),
         path('delete/', views.UserProfileDeleteAPIView.as_view(), name='delete-account'),
         path('view-all/', views.ListProfileAPIView.as_view(), name='view-all-profiles'),
         path('view/<str:username>/', views.ViewProfileAPIView.as_view(), name='view-profile'),
