@@ -89,7 +89,9 @@ class ProfileViewSerializer(serializers.ModelSerializer):
 
 class ConnectionSerializer(serializers.ModelSerializer):
     from_user = serializers.SerializerMethodField()
-
+    profile_picture = serializers.ImageField(source='from_user.userprofile.profile_picture', read_only=True)
+    first_name = serializers.SerializerMethodField()
+    last_name = serializers.SerializerMethodField()
     class Meta:
         model = Connection
         exclude = ['is_accepted', 'to_user']
@@ -97,3 +99,7 @@ class ConnectionSerializer(serializers.ModelSerializer):
     def get_from_user(self, obj):
         '''Get the username of the user initiating the connection.'''
         return obj.from_user.username
+    def get_first_name(self, obj):
+        return obj.from_user.first_name
+    def get_last_name(self, obj):
+        return obj.from_user.last_name

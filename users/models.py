@@ -5,7 +5,7 @@ from django.core.exceptions import ValidationError
 from cloudinary.models import CloudinaryField
 
 class UserProfile(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='userprofile')
     profile_picture = CloudinaryField('profile_pictures', default='http://res.cloudinary.com/dk3tpyyee/image/upload/v1713565892/bpwwih53rqle48wt7bsw.png', transformation={
             'quality': 'auto:low', 'fetch_format':'auto'
         })

@@ -6,7 +6,7 @@ class Post(models.Model):
     id = models.AutoField(primary_key=True)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     post_image = CloudinaryField('post_images', blank=False, null=False, transformation={
-            'quality': 'auto:eco'
+            'quality': 'auto:low', 'fetch_format':'auto'
         })
     caption = models.TextField(blank=True, null=True)
     created_at = models.DateTimeField(auto_now_add=True)

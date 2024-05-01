@@ -1,7 +1,6 @@
 from pathlib import Path
 import cloudinary
-import cloudinary.uploader
-import cloudinary.api
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -10,12 +9,15 @@ CLOUDINARY_STORAGE = {
     'API_KEY': '828563768768214',
     'API_SECRET': 'ITe0mLIWpySaQ0_zuv606acls1g'
 }
-
 cloudinary.config(
     cloud_name=CLOUDINARY_STORAGE['CLOUD_NAME'],
     api_key=CLOUDINARY_STORAGE['API_KEY'],
-    api_secret=CLOUDINARY_STORAGE['API_SECRET']
+    api_secret=CLOUDINARY_STORAGE['API_SECRET'],
+    api_proxy = "http://proxy.server:3128"
 )
+import cloudinary.uploader
+import cloudinary.api
+
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/5.0/howto/deployment/checklist/
 
@@ -25,7 +27,7 @@ SECRET_KEY = 'django-insecure-tc2$kmd0l-+f2!xoyq%2x^#15x60c7v!81tzwq$6k01&n$0+1y
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['aadb-2409-4080-e9c-3d1b-519e-f805-8c3d-d166.ngrok-free.app',  '127.0.0.1']
+ALLOWED_HOSTS = ['divij2510.pythonanywhere.com']
 
 CORS_ALLOW_ALL_ORIGINS = True
 # Application definition
